@@ -3,37 +3,49 @@ require 'config.php';
 
 $message = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") 
+if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
     $full_name = htmlspecialchars(strip_tags(trim($_POST['full_name'] ?? '')));
     $phone = htmlspecialchars(strip_tags(trim($_POST['phone'] ?? '')));
     $student_number = htmlspecialchars(strip_tags(trim($_POST['student_number'] ?? '')));
     $skills = htmlspecialchars(strip_tags(trim($_POST['skills'] ?? '')));
 
-    if (!empty($full_name) && !empty($phone) && !empty($student_number)) 
+    if (!preg_match('/^[0-9]{11}$/', $phone))
+    {
+        $message = "شماره تلفن باید 11 رقم و فقط شامل عدد باشد.";
+    }
+    elseif (!preg_match('/^[0-9]+$/', $student_number))
+    {
+        $message = "شماره دانشجویی فقط باید شامل عدد باشد.";
+    }
+    elseif (!empty($full_name) && !empty($phone) && !empty($student_number))
     {
         $check_sql = "SELECT COUNT(*) FROM users WHERE student_number = :student_number";
         $check_stmt = $pdo->prepare($check_sql);
         $check_stmt->execute([':student_number' => $student_number]);
-        
-        if ($check_stmt->fetchColumn() > 0) 
+
+        if ($check_stmt->fetchColumn() > 0)
         {
             $message = "خطا: این شماره دانشجویی قبلاً ثبت نام کرده است!";
-        } 
-        else 
+        }
+        else
         {
-            $sql = "INSERT INTO users (full_name, phone, student_number, skills) VALUES (:full_name, :phone, :student_number, :skills)";
+            $sql = "INSERT INTO users (full_name, phone, student_number, skills)
+                    VALUES (:full_name, :phone, :student_number, :skills)";
+
             $stmt = $pdo->prepare($sql);
+
             $stmt->execute([
                 ':full_name' => $full_name,
                 ':phone' => $phone,
                 ':student_number' => $student_number,
                 ':skills' => $skills
             ]);
+
             $message = "ثبت نام با موفقیت انجام شد.";
         }
-    } 
-    else 
+    }
+    else
     {
         $message = "لطفاً تمامی فیلدهای اجباری را پر کنید.";
     }
@@ -130,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         <input type="text" name="full_name" required>
 
         <label>شماره تلفن:</label>
-        <input type="text" name="phone" required>
+        <input type="tel" name="phone" required>
 
         <label>شماره دانشجویی:</label>
         <input type="text" name="student_number" required>

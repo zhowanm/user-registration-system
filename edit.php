@@ -138,17 +138,22 @@ button:hover
 <form method="POST">
 
     <p>نام:</p>
-    <input type="text"
+    <input 
+           type="text"
            name="full_name"
            value="<?= htmlspecialchars($user['full_name']) ?>">
 
     <p>تلفن:</p>
-    <input type="text"
+    <input 
+           type="tel"
            name="phone"
+           pattern="[0-9]{11}"
+           title="لطفاً شماره تلفن 11 رقمی وارد کنید"
            value="<?= htmlspecialchars($user['phone']) ?>">
 
     <p>شماره دانشجویی:</p>
-    <input type="text"
+    <input 
+           type="text"
            name="student_number"
            value="<?= htmlspecialchars($user['student_number']) ?>">
 
@@ -157,7 +162,8 @@ button:hover
 
     <br><br>
 
-    <button type="submit">
+    <button 
+          type="submit">
         ذخیره تغییرات
     </button>
 
