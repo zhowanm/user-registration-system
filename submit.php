@@ -133,7 +133,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     <h2>فرم ثبت نام</h2>
 
     <?php if(!empty($message)): ?>
-        <p class="message"><?= $message ?></p>
+        <p class="message"
+        style="
+        padding:10px;
+        border-radius:8px;
+        background:
+        <?= strpos($message,'موفقیت') !== false ? '#d4edda' : '#f8d7da' ?>;
+        color:
+        <?= strpos($message,'موفقیت') !== false ? '#155724' : '#721c24' ?>;
+        ">
+           <?= htmlspecialchars($message) ?>
+        </p>
+
     <?php endif; ?>
 
     <form action="" method="POST">

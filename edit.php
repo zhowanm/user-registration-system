@@ -48,6 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         $id
     ]);
 
+    $_SESSION['success'] = 'اطلاعات دانشجو با موفقیت ویرایش شد.';
+
     header("Location: admin.php");
     exit;
 }

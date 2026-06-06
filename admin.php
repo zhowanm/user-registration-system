@@ -9,12 +9,22 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
 require 'config.php';
 
+$success = '';
+
+if(isset($_SESSION['success']))
+{
+    $success = $_SESSION['success'];
+    unset($_SESSION['success']);
+}
+
 if (isset($_GET['delete']))
 {
     $id = (int)$_GET['delete'];
 
     $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
     $stmt->execute([$id]);
+
+    $_SESSION['success'] = 'دانشجو با موفقیت حذف شد.';
 
     header("Location: admin.php");
     exit;
@@ -72,7 +82,12 @@ $totalUsers = count($users);
 
 <h2>لیست دانشجویان ثبت نام شده</h2>
 <p>خوش آمدید، <?= htmlspecialchars($_SESSION['admin_user']) ?> عزیز</p>
-   
+ <?php if(!empty($success)): ?>
+<div class="alert alert-success">
+    <?= htmlspecialchars($success) ?>
+</div>
+<?php endif; ?>
+
    <div class="card mb-3">
        <div class="card-body">
            <h5 class="card-title">آمار سیستم</h5>
