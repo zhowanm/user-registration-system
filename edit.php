@@ -29,6 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $student_number = $_POST['student_number'];
     $skills = $_POST['skills'];
 
+    if (!preg_match('/^[0-9]+$/', $student_number))
+    {
+        die("شماره دانشجویی فقط باید شامل عدد باشد.");
+    }
+
     $stmt = $pdo->prepare
     ("
         UPDATE users
