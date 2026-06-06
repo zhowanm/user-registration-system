@@ -31,37 +31,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
     if (!preg_match('/^[0-9]{11}$/', $phone))
     {
-        die("شماره تلفن باید 11 رقم و فقط شامل عدد باشد.");
+        $error = "شماره تلفن باید 11 رقم و فقط شامل عدد باشد.";
     }
 
     if (!preg_match('/^[0-9]+$/', $student_number))
     {
-        die("شماره دانشجویی فقط باید شامل عدد باشد.");
+        $error = "شماره دانشجویی فقط باید شامل عدد باشد.";
     }
+    else 
+    {
+	    $stmt = $pdo->prepare
+        ("
+            UPDATE users
+            SET full_name = ?,
+                phone = ?,
+                student_number = ?,
+                skills = ?
+            WHERE id = ?
+        ");
 
-    $stmt = $pdo->prepare
-    ("
-        UPDATE users
-        SET full_name = ?,
-            phone = ?,
-            student_number = ?,
-            skills = ?
-        WHERE id = ?
-    ");
+        $stmt->execute
+        ([
+            $full_name,
+            $phone,
+            $student_number,
+            $skills,
+            $id
+        ]);
 
-    $stmt->execute
-    ([
-        $full_name,
-        $phone,
-        $student_number,
-        $skills,
-        $id
-    ]);
+        $_SESSION['success'] = 'اطلاعات دانشجو با موفقیت ویرایش شد.';
 
-    $_SESSION['success'] = 'اطلاعات دانشجو با موفقیت ویرایش شد.';
-
-    header("Location: admin.php");
-    exit;
+        header("Location: admin.php");
+        exit;
+    }
 }
 
 ?>
@@ -146,6 +148,21 @@ button:hover
 <div class="container">
 
 <h2>ویرایش اطلاعات دانشجو</h2>
+
+<?php if(!empty($error)): ?>
+<div
+style="
+background:#f8d7da;
+color:#721c24;
+padding:10px;
+border-radius:8px;
+margin-bottom:15px;
+text-align:center;
+font-weight:bold;
+">
+    <?= htmlspecialchars($error) ?>
+</div>
+<?php endif; ?>
 
 <form method="POST">
 
