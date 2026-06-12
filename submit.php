@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
         if ($check_stmt->fetchColumn() > 0)
         {
-            $message = "خطا: این شماره دانشجویی قبلاً ثبت نام کرده است!";
+            $message = "!خطا: این شماره دانشجویی قبلاً ثبت نام کرده است";
         }
         else
         {
@@ -58,89 +58,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     <meta charset="UTF-8">
     <title>فرم ثبت نام</title>
 
-    <style>
+    <link rel="stylesheet" href="output.css">
 
-        body
-        {
-            direction: rtl;
-            font-family: Tahoma;
-            background:#f4f6f9;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            min-height:100vh;
-            margin:0;
-        }
-
-        .container
-        {
-            width:450px;
-            background:white;
-            padding:30px;
-            border-radius:15px;
-            box-shadow:0 5px 20px rgba(0,0,0,0.15);
-        }
-
-        h2
-        {
-            text-align:center;
-            margin-bottom:20px;
-        }
-
-        input,
-        textarea
-        {
-            width:100%;
-            padding:10px;
-            margin-top:5px;
-            margin-bottom:15px;
-            border:1px solid #ccc;
-            border-radius:8px;
-            box-sizing:border-box;
-        }
-
-        button
-        {
-            width:100%;
-            padding:12px;
-            background:#2563eb;
-            color:white;
-            border:none;
-            border-radius:8px;
-            cursor:pointer;
-            font-size:16px;
-        }
-
-        button:hover
-        {
-            background:#1d4ed8;
-        }
-
-        .message
-        {
-            text-align:center;
-            font-weight:bold;
-            margin-bottom:15px;
-        }
-
-    </style>
 </head>
 
-<body>
+<body class="bg-gray-100 min-h-screen dark:bg-gray-900">
 
-<div class="container">
+<main class="min-h-screen flex items-center justify-center">
 
-    <h2>فرم ثبت نام</h2>
+<div class="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg dark:bg-gray-800">
+    <h2 class="text-3xl font-bold text-center mb-6 text-gray-800 dark:text-white">
+        فرم ثبت نام
+    </h2>
 
     <?php if(!empty($message)): ?>
-        <p class="message"
-        style="
-        padding:10px;
-        border-radius:8px;
-        background:
-        <?= strpos($message,'موفقیت') !== false ? '#d4edda' : '#f8d7da' ?>;
-        color:
-        <?= strpos($message,'موفقیت') !== false ? '#155724' : '#721c24' ?>;
+        <p class="
+            p-3 
+            rounded-lg 
+            mb-4 
+            text-center 
+            font-medium
+            <?= strpos($message, 'موفقیت') !== false 
+                ? 'bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-200' 
+                : 'bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200' ?>
         ">
            <?= htmlspecialchars($message) ?>
         </p>
@@ -149,22 +89,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
     <form action="" method="POST">
 
-        <label>نام و نام خانوادگی:</label>
-        <input type="text" name="full_name" required>
+        <label class="block mb-2 text-right text-gray-700 font-medium dark:text-gray-300">
+            :نام و نام خانوادگی
+        </label>
+        <input 
+            type="text" 
+            name="full_name"
+            class="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            required>
 
-        <label>شماره تلفن:</label>
-        <input type="tel" name="phone" required>
+        <label class="block mb-2 text-right text-gray-700 font-medium dark:text-gray-300">
+            :شماره تلفن
+        </label>
+        <input 
+            type="tel" 
+            name="phone"
+            class="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            required>
 
-        <label>شماره دانشجویی:</label>
-        <input type="text" name="student_number" required>
+        <label class="block mb-2 text-right text-gray-700 font-medium dark:text-gray-300">
+            :شماره دانشجویی
+        </label>
+        <input 
+            type="text"
+            name="student_number"
+            class="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            required>
 
-        <label>مهارت ها:</label>
-        <textarea name="skills" rows="5"></textarea>
+        <label class="block mb-2 text-right text-gray-700 font-medium dark:text-gray-300">
+            :مهارت‌ها
+        </label>
+        <textarea 
+            name="skills"
+            rows="5"
+            class="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+        </textarea>
 
-        <button type="submit">ثبت اطلاعات</button>
+        <button 
+            type="submit"
+            class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition duration-300 dark:bg-blue-500 dark:hover:bg-blue-600">
+            ثبت اطلاعات
+        </button>
 
     </form>
 
 </div>
+</main>
 </body>
 </html>
