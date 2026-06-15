@@ -2,7 +2,6 @@
 require 'config.php';
 
 $message = "";
-
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
     $full_name = htmlspecialchars(strip_tags(trim($_POST['full_name'] ?? '')));
@@ -52,17 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-    <meta charset="UTF-8">
-    <title>فرم ثبت نام</title>
+<?php require 'header.php'; ?>
 
-    <link rel="stylesheet" href="output.css">
-
-</head>
-
-<body class="bg-gray-100 min-h-screen dark:bg-gray-900">
 
 <main class="min-h-screen flex items-center justify-center">
 
@@ -84,7 +74,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         ">
            <?= htmlspecialchars($message) ?>
         </p>
-
     <?php endif; ?>
 
     <form action="" method="POST">
@@ -130,10 +119,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition duration-300 dark:bg-blue-500 dark:hover:bg-blue-600">
             ثبت اطلاعات
         </button>
-
     </form>
-
 </div>
 </main>
-</body>
-</html>
+
+<?php require 'footer.php'; ?>
